@@ -1,0 +1,20 @@
+{
+  "name": "demo-distinct",
+  "version": "1.0.0",
+  "description": "Distinct Algolia API",
+  "main": "src/index.html",
+  "repository": "git@github.com:jscontreras/algolia-distinct.git",
+  "author": "Sebastian Contreras <sebastian.contreras@algolia.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/*.html"
+  },
+  "devDependencies": {
+    "parcel-plugin-static-files-copy": "^2.6.0"
+  },
+  "staticFiles": {
+    "staticPath": [
+      "assets"
+    ]
+  }
+}
