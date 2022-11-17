@@ -7,7 +7,8 @@
   "author": "Sebastian Contreras <sebastian.contreras@algolia.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel src/index.html",
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html",
     "version": "parcel --version"
   },
   "devDependencies": {
