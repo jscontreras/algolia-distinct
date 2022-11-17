@@ -7,10 +7,12 @@
   "author": "Sebastian Contreras <sebastian.contreras@algolia.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel src/*.html"
+    "start": "parcel src/index.html",
+    "version": "parcel --version"
   },
   "devDependencies": {
-    "parcel-plugin-static-files-copy": "^2.6.0"
+    "parcel-plugin-static-files-copy": "^2.6.0",
+    "parcel-bundler": "1.12.5"
   },
   "staticFiles": {
     "staticPath": [
