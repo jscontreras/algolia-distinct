@@ -14,7 +14,19 @@ $(document).ready(function () {
 
   // Client + Helper initialization
   var algoliaClient = algoliasearch(APPLICATION_ID, SEARCH_ONLY_API_KEY);
+
   var algoliaHelper = algoliasearchHelper(algoliaClient, INDEX_NAME, PARAMS);
+
+
+  var initSearch = algoliaClient.search;
+  algoliaClient = {...algoliaClient, search(requests) {
+    console.log('requests.length', requests.length)
+    if (requests.length > 1) {
+      return initSearch(requests);
+    }
+  }}
+
+
 
   // DOM BINDING
   var $searchInput = $('#search-input');
@@ -32,22 +44,29 @@ $(document).ready(function () {
     // Sending multiple Queries
     const queries = [{
       indexName: algoliaHelper.getIndex(),
-      ...algoliaHelper.getQuery()
+      ...algoliaHelper.getQuery(),
+      analyticsTags: ['main-results'],
+      ruleContexts: { // Adding context
+        renderer: 'ModelsResults'
+      },
     },
-      {
-        indexName: algoliaHelper.getIndex(),
-        ...algoliaHelper.getQuery(),
-        distinct: 1, // Forcing Distinct
-        ruleContexts: { // Adding context
-          renderer: 'ModelsHeader'
-        },
-        analyticsTags: ['modelView'],
-      }];
-    algoliaClient.multipleQueries(queries).then(({ results }) => {
+    {
+      indexName: algoliaHelper.getIndex(),
+      ...algoliaHelper.getQuery(),
+      distinct: true, // Forcing Distinct
+      ruleContexts: { // Adding context
+        renderer: 'ModelsHeader'
+      },
+      analyticsTags: ['modelView'],
+    }];
+
+
+    algoliaClient.search(queries).then(({ results }) => {
       renderHits(results[0]);
       renderModels(results[1])
       handleNoResults(results[0]);
     });
+
     algoliaHelper.search();
   }
   function setMultiQuery(query) {
@@ -60,19 +79,14 @@ $(document).ready(function () {
   // ==============
   // Input binding
   $searchInput
-  .on('keyup', function () {
-    $('#query-message').empty();
-    var query = $(this).val();
-    toggleIconEmptyInput(query);
-    setMultiQuery(query);
-    searchMultiquery();
-  })
-  .focus();
-
-  // Search errors
-  algoliaHelper.on('error', function (error) {
-    console.log(error);
-  });
+    .on('keyup', function () {
+      $('#query-message').empty();
+      var query = $(this).val();
+      toggleIconEmptyInput(query);
+      setMultiQuery(query);
+      searchMultiquery();
+    })
+    .focus();
 
   // Search results
   // algoliaHelper.on('result', function (content) {
@@ -102,7 +116,7 @@ $(document).ready(function () {
       return;
     }
     $main.addClass('no-results');
-    $hits.html(noResultsTemplate.render({query: content.query}));
+    $hits.html(noResultsTemplate.render({ query: content.query }));
   }
 
   // EVENTS BINDING
