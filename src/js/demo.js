@@ -52,8 +52,8 @@ $(document).ready(function () {
       indexName: algoliaHelper.getIndex(),
       ...algoliaHelper.getQuery(),
       distinct: true, // Forcing Distinct
-      ruleContexts: ['ModelsView'],
-      analyticsTags: ['modelView'],
+      ruleContexts: ['ModelsHeader'],
+      analyticsTags: ['header-results'],
     }];
 
 
