@@ -66,8 +66,6 @@ $(document).ready(function () {
       renderModels(results[1])
       handleNoResults(results[0]);
     });
-
-    algoliaHelper.search();
   }
   function setMultiQuery(query) {
     toggleIconEmptyInput(query);
