@@ -46,17 +46,13 @@ $(document).ready(function () {
       indexName: algoliaHelper.getIndex(),
       ...algoliaHelper.getQuery(),
       analyticsTags: ['main-results'],
-      ruleContexts: { // Adding context
-        renderer: 'ModelsResults'
-      },
+      ruleContexts: ['ModelsResults'],
     },
     {
       indexName: algoliaHelper.getIndex(),
       ...algoliaHelper.getQuery(),
       distinct: true, // Forcing Distinct
-      ruleContexts: { // Adding context
-        renderer: 'ModelsHeader'
-      },
+      ruleContexts: ['ModelsView'],
       analyticsTags: ['modelView'],
     }];
 
